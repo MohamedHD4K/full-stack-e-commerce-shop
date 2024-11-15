@@ -1,46 +1,24 @@
-import { useState } from "react";
-import { postUser } from "../api/http";
-import "./App.css";
+import RegisterPage from "./components/RegisterPage/RegisterPage";
+import "react-toastify/dist/ReactToastify.css";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Home from "./components/Home/Home";
+import '../public/style.css'
 
 function App() {
-  const [data, setData] = useState({
-    username: "",
-    password: "",
-  });
-
-  const handelChange = ({ target }) => {
-    setData({ ...data, [target.name]: target.value });
-  };
-
-  const handelSubmit = (e) => {
-    e.preventDefault();
-    postUser({
-      "username" : data.username,
-      "password" : data.password
-    })
-  };
-
   return (
-    <>
-      <form onSubmit={handelSubmit} method="POST" action="/user">
-        <label htmlFor="username">User Name: </label>
-        <input
-          id="username"
-          name="username"
-          value={data.username}
-          onChange={handelChange}
-        />
-          
-        <label htmlFor="password">Password: </label>
-        <input
-          id="password"
-          name="password"
-          value={data.password}
-          onChange={handelChange}
-        />
-        <input type="submit" />
-      </form>
-    </>
+    <div className="container">
+      <Router
+        future={{
+          v7_startTransition: true,
+          v7_relativeSplatPath: true,
+        }}
+      >
+        <Routes>
+          <Route index element={<Home />} />
+          <Route path="/register" element={<RegisterPage />} />
+        </Routes>
+      </Router>
+    </div>
   );
 }
 

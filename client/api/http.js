@@ -1,11 +1,10 @@
 import http from "axios";
 
-const apiUrl = "http://localhost:3003";
+const apiUrl = "http://localhost:3003/api";
 
-export const postUser = (userData) =>
-  http
-    .post(`${apiUrl}/user`, userData)
-    .then((result) => {
-      console.log(result);
-    })
-    .catch((err) => console.log(err));
+const postUser = (userData) => http.post(`${apiUrl}/user`, userData);
+const postLogin = (userData) => http.post(`${apiUrl}/user/login`, userData);
+const getUser = () => http.get(`${apiUrl}/user`);
+
+const userApi = { postUser, getUser , postLogin};
+export default userApi;

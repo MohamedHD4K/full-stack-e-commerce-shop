@@ -15,6 +15,12 @@ const userSchema = new mongoose.Schema({
     min: 5,
     max: 300,
   },
+  email: {
+    type: String,
+    required: true,
+    min: 10,
+    max: 300,
+  },
 });
 
 userSchema.pre("save", async function (next) {
