@@ -1,12 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const userController = require("../controllers/userController");
+const productController = require("../controllers/productController");
+const authMid = require("../middlewares/auth");
 
-router.get("/api/user", userController.user_index_get);
 
 router.post("/api/user", userController.user_index_post);
 
-router.post("/api/user/login", userController.user_login_post);
+router.post("/api/auth", userController.auth_post);
 
+router.post("/api/products", authMid , productController.product_post);
 
 module.exports = router;

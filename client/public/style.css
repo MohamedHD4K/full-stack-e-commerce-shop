@@ -9,18 +9,18 @@ body {
 
 .login {
   width: 400px;
-  height: 500px;
+  height: 800px;
   color: #222;
   border-radius: 60% / 10%;
-  transform: translateY(30px);
+  transform: translateY(-0px);
   transition: 0.8s ease-in-out;
   position: absolute;
-  top: 0;
-  left: -49px;
+  top: 460px;
+  left: -350px;
 }
 
 #chk:checked ~ .login {
-  transform: translateY(-300px);
+  transform: translateY(-350px);
 }
 
 
@@ -30,4 +30,12 @@ body {
   overflow: hidden;
   border-radius: 10px;
   position: relative;
+}
+
+.fixed {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50% , -50%);
+  background-color: #22222296;
 }

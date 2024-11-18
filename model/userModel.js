@@ -5,19 +5,19 @@ const jwt = require("jsonwebtoken");
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
-    required: true,
-    min: 5,
+    require: true,
+    min: 3,
     max: 50,
   },
   password: {
     type: String,
-    required: true,
-    min: 5,
+    require: true,
+    min: 6,
     max: 300,
   },
   email: {
     type: String,
-    required: true,
+    require: true,
     min: 10,
     max: 300,
   },
@@ -34,5 +34,11 @@ userSchema.methods.getAuthToken = function () {
   return jwt.sign(this.toJSON(), process.env.JWT_SECRET);
 };
 
+userSchema.methods.checkPassword = function (password) {
+  return bcrypt.compare(password, this.password);
+};
+
 const User = mongoose.model("User", userSchema);
+module.exports = User;
+
 module.exports = User;

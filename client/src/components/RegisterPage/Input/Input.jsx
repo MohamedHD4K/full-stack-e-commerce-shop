@@ -4,7 +4,6 @@ function Input({ id, title, value, type, handelChange }) {
       <input
         className="form-control"
         type={type}
-        id={id}
         name={id}
         onChange={handelChange}
         value={value}

@@ -14,13 +14,12 @@ function LoginPage() {
     setData({ ...data, [target.name]: target.value });
   };
 
-  const handelSubmit = async (e) => {
+  const handelLogin = async (e) => {
     e.preventDefault();
     try {
-      const { data: user } = await userApi.postLogin(data);
-      toast.success("Welcome" + user.username);
-      auth.setToken(user.token)
-      window.location = '/'
+      const { data: token } = await userApi.postLogin(data);
+      auth.setToken(token);
+      window.location = "/";
     } catch (err) {
       if (
         err.response &&
@@ -28,6 +27,7 @@ function LoginPage() {
         err.response.status < 500
       ) {
         toast.error(err.response.data);
+        console.log(err);
       }
     }
   };
@@ -37,12 +37,13 @@ function LoginPage() {
       <input type="checkbox" id="chk" style={{ display: "none" }} />
 
       <form
-        onSubmit={handelSubmit}
+        onSubmit={handelLogin}
         className="d-flex flex-column gap-4 border px-5 login bg-light text-dark"
-        method="POST"
-        action="/"
       >
-        <label htmlFor="chk" className="fw-bold my-2 mb-4 text-center fs-1 login-title">
+        <label
+          htmlFor="chk"
+          className="fw-bold my-2 mb-4 text-center fs-1 login-title"
+        >
           Login
         </label>
         <Input
@@ -61,9 +62,9 @@ function LoginPage() {
           title="Password"
         />
 
-        <input className="btn btn-success" type="submit" value="Login"/>
+        <input className="btn btn-success" type="submit" value="Login" />
       </form>
-        <ToastContainer />
+      <ToastContainer />
     </div>
   );
 }
