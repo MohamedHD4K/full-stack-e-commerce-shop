@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
-import userApi from "../../../../api/http";
-import auth from "../../../../api/auth";
-import Input from "../Input/Input";
+import userApi from "../../../api/users";
+import auth from "../../../api/auth";
+import Input from "../Input";
 
 function LoginPage() {
   const [data, setData] = useState({

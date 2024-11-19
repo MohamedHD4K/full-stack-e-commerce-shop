@@ -1,9 +1,8 @@
-import http from "axios";
+import axios from "axios";
+import auth from "./auth";
 
-const apiUrl = "http://localhost:3003/api";
+axios.defaults.headers.common['Token'] = auth.getToken() || null;
 
-const postUser = (userData) => http.post(`${apiUrl}/user`, userData);
-const postLogin = (userData) => http.post(`${apiUrl}/auth`, userData);
+const http = axios
 
-const userApi = { postUser , postLogin};
-export default userApi;
+export default http

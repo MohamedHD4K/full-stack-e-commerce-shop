@@ -1,8 +1,8 @@
 import { useState } from "react";
-import userApi from "../../../api/http";
-import Input from "./Input/Input";
+import userApi from "../../../api/users";
+import Input from "../Input";
 import { toast, ToastContainer } from "react-toastify";
-import LoginPage from "./LoginPage/LoginPage";
+import LoginPage from "../LoginPage/LoginPage";
 import auth from "../../../api/auth";
 
 function RegisterPage() {
@@ -14,7 +14,6 @@ function RegisterPage() {
   const handelChange = ({ target }) => {
     setData({ ...data, [target.name]: target.value });
   };
-
   const handelSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -34,9 +33,7 @@ function RegisterPage() {
   };
 
   return (
-    <div
-      className=" d-flex flex-column justify-content-center align-items-center w-100 mt-5"
-    >
+    <div className=" d-flex flex-column justify-content-center align-items-center w-100 mt-5">
       <div
         className="rounded d-flex justify-content-center border p-5 main shadow"
         style={{ width: "400px", height: "600px", position: "relative" }}

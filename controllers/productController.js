@@ -13,6 +13,7 @@ const product_post = async (req, res) => {
 
     product = await product.save();
 
+    console.log(product);
     return res.send(product);
   } catch (error) {
     console.log(error);

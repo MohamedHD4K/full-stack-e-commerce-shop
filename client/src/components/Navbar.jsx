@@ -20,14 +20,13 @@ function Navbar() {
   const handleCancel = () => setShow(false);
 
   const handelLogout = () => {
-    setUser(null)
-    auth.deleteToken(localStorage.getItem("token"))
-    setShow(false)
-  }
+    setUser(null);
+    auth.deleteToken(localStorage.getItem("token"));
+    setShow(false);
+  };
 
   return (
     <LittelNavbar className="bg-body-tertiary">
-
       <Container>
         <Nav>
           <Link to="/" className="nav-link">
@@ -57,7 +56,11 @@ function Navbar() {
             id="basic-nav-dropdown"
             className="no-arrow-dropdown"
           >
-            <NavDropdown.Item>Page1</NavDropdown.Item>
+            <NavDropdown.Item className="p-0">
+              <Link className="dropdown-item" to="/sell">
+                Selling Page
+              </Link>
+            </NavDropdown.Item>
             <NavDropdown.Divider />
             <NavDropdown.Item>Page2</NavDropdown.Item>
           </NavDropdown>
@@ -117,7 +120,6 @@ function Navbar() {
           </Link>
         </Nav>
       </Container>
-
 
       <Modal className="text-dark" show={show} onHide={handleCancel}>
         <Modal.Header closeButton>
