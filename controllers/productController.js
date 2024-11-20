@@ -21,4 +21,25 @@ const product_post = async (req, res) => {
   }
 };
 
-module.exports = { product_post };
+const product_get = async (req, res) => {
+  const products = await Product.find();
+  return res.send(products);
+};
+
+const product_delete = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const product = await Product.findByIdAndDelete(id);
+
+    if (!product) {
+      return res.status(404).send({ message: "Item not found" });
+    }
+
+    res.send({ message: "Item deleted successfully" });
+  } catch (error) {
+    res.status(500).send({ error: "An error occurred" });
+  }
+};
+
+
+module.exports = { product_post, product_get, product_delete };

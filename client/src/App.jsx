@@ -8,7 +8,7 @@ import auth from "../api/auth";
 import UserContext from "./context/userContext";
 import ThemeContext from "./context/themeContext";
 import Navbar from "./components/Navbar";
-import PrivetRouter from "./components/router/PrivetRouter";
+import PrivetRouter from "./router/PrivetRouter";
 import Loading from "./components/Loading";
 import SellPage from "./components/SellPage/SellPage";
 

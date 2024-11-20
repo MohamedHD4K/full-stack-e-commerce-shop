@@ -1,10 +1,18 @@
 import http from "./http";
 
-const apiUrl = 'http://localhost:3003/api';
+const apiUrl = "http://localhost:3001/api";
 
 const postProduct = (productData) =>
   http.post(`${apiUrl}/products`, productData);
 
-const producApi = { postProduct };
+const getProduct = () => http.get(`${apiUrl}/products`);
 
-export default producApi;
+
+const deleteProduct = (productData) => {
+  http.delete(`${apiUrl}/products/${productData}`);
+  console.log(productData);
+};
+
+const productApi = { postProduct, getProduct, deleteProduct };
+
+export default productApi;

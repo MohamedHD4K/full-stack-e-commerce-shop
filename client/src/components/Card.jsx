@@ -1,35 +1,77 @@
-import { useContext } from "react";
-import { Card as LittelCard } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
-import ThemeContext from "../context/themeContext";
+import { CloseButton, Card as LittelCard } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
-function Card() {
-  const { theme , setTheme } = useContext(ThemeContext);
-
-  const handelTheme = () => {
-    setTheme(pre => !pre)
-  };
-
-  return (
-    <LittelCard
-      className={theme ? "bg-dark" : "bg-light"}
-      style={{ width: "18rem" }}
-    >
-      <LittelCard.Img variant="top" src="test.png" />
-      <LittelCard.Body>
-        <LittelCard.Title>Card Title</LittelCard.Title>
-        <LittelCard.Text>
-          Some quick example text to build on the card title and make up the
-        </LittelCard.Text>
-        <Button
-          variant={theme ? "danger" : "primary"}
-          onClick={handelTheme}
-        >
-          Go somewhere
-        </Button>
-      </LittelCard.Body>
-    </LittelCard>
-  );
+function Card({
+  title,
+  about,
+  price,
+  img,
+  key,
+  id,
+  user,
+  currentUser,
+  handelDeleteProduct,
+  handelEditProduct,
+  handelAddToCart,
+  ...res
+}) {
+  if (user === currentUser) {
+    return (
+      <LittelCard
+        key={key}
+        {...res}
+        style={{ textDecoration: "none", width: "18rem" }}
+      >
+        <LittelCard.Img
+          variant="top"
+          className="img"
+          style={{ height: "300px" }}
+          src={img}
+        />
+        <LittelCard.Body>
+          <LittelCard.Title className="fw-bold">{title}</LittelCard.Title>
+          <LittelCard.Text>{about}</LittelCard.Text>
+          <div
+            className="d-flex align-items-center"
+            style={{ justifyContent: "space-between" }}
+          >
+            <span className="fw-bold text-warning">{price}$</span>
+            {user === currentUser ? (
+              <span
+                id={id}
+                className="material-symbols-outlined flex-end p-2 fs-5 btn btn-warning"
+                onClick={handelEditProduct}
+              >
+                edit
+              </span>
+            ) : (
+              <div>
+                <span
+                  className="material-symbols-outlined flex-end fs-5 btn btn-warning mx-2"
+                  onClick={handelAddToCart}
+                >
+                  shopping_cart
+                </span>
+                <Link
+                  className="material-symbols-outlined flex-end fs-5 btn btn-warning "
+                  to={"/product-details/" + id}
+                >
+                  details
+                </Link>
+              </div>
+            )}
+          </div>
+          <CloseButton
+            id={id}
+            className="close p-2 rounded-circle"
+            onClick={handelDeleteProduct}
+          />
+        </LittelCard.Body>
+      </LittelCard>
+    );
+  } else {
+    return;
+  }
 }
 
 export default Card;

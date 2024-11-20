@@ -22,6 +22,12 @@ function SellPage({ history }) {
     try {
       await products.postProduct(data);
       toast.success(data.title + " Created");
+      setData({
+        title: "",
+        about: "",
+        price: "",
+        img: "",
+      });
       history.push("/");
     } catch (error) {
       if (
@@ -42,7 +48,7 @@ function SellPage({ history }) {
         onSubmit={handelSubmit}
       >
         <h1 className="fw-bold">Selling Product</h1>
-        <hr className="divider"/>
+        <hr className="divider" />
 
         <Stack gap={4}>
           <Input
@@ -74,7 +80,7 @@ function SellPage({ history }) {
             className="shadow-sm"
           />
           <Input
-            title="Imege"
+            title="Url Image"
             type="url"
             id="img"
             value={data.img}
@@ -83,7 +89,7 @@ function SellPage({ history }) {
             handelChange={handelChange}
             className="shadow-sm"
           />
-          <hr className="divider"/>
+          <hr className="divider" />
           <Input type="submit" value="Create" className="btn btn-primary" />
         </Stack>
       </form>

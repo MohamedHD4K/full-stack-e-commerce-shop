@@ -43,3 +43,18 @@ body {
   width: calc(100% + 46px);
   transform: translate(-23px);
 }
+
+.img{
+  height: 100%;
+  width: 100%;
+  object-fit: cover; 
+  object-position: center; 
+}
+
+.close {
+  position: absolute;
+  inset: 0;
+  top: 10px ;
+  left: 10px ;
+  background-color: #fff;
+}
