@@ -41,5 +41,26 @@ const product_delete = async (req, res) => {
   }
 };
 
+const product_update = async (req, res) => {
+  const { id, title, price, img, about } = req.body;
 
-module.exports = { product_post, product_get, product_delete };
+  try {
+    const product = await Product.findOneAndUpdate(
+      { _id: id },
+      { title, price, img, about },
+      { new: true }
+    );
+
+    console.log(product);
+
+    if (!product) {
+      return res.status(404).send({ error: "Product not found" });
+    }
+
+    res.send(product);
+  } catch (error) {
+    res.status(500).send({ error: "An error occurred" });
+  }
+};
+
+module.exports = { product_post, product_get, product_delete, product_update };

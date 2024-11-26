@@ -33,28 +33,39 @@ body {
 
 .fixed {
   position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #22222296;
+  background-color: #222222b4;
+  height: 100vh;
 }
 
-.divider{
+.divider {
   width: calc(100% + 46px);
   transform: translate(-23px);
 }
 
-.img{
+.img {
   height: 100%;
   width: 100%;
-  object-fit: cover; 
-  object-position: center; 
+  object-fit: cover;
+  object-position: center;
 }
 
 .close {
   position: absolute;
   inset: 0;
-  top: 10px ;
-  left: 10px ;
+  top: 10px;
+  left: 10px;
   background-color: #fff;
+}
+
+.truncated-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 220px;
 }

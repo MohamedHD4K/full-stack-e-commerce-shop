@@ -11,6 +11,7 @@ import Navbar from "./components/Navbar";
 import PrivetRouter from "./router/PrivetRouter";
 import Loading from "./components/Loading";
 import SellPage from "./components/SellPage/SellPage";
+import SellMyProductPage from "./components/SellMyProductPage/SellMyProductPage";
 
 function App() {
   const [user, setUser] = useState();
@@ -26,14 +27,26 @@ function App() {
     return <Loading />;
   }
   return (
-    <Router>
+    <Router
+      future={{
+        v7_relativeSplatPath: true,
+        v7_startTransition: true,
+      }}
+    >
       <ThemeContext.Provider value={{ theme, setTheme }}>
         <UserContext.Provider value={{ user, setUser }}>
           <Navbar />
           <Routes>
             <Route path="/" element={<PrivetRouter component={Home} />} />
             <Route path="/register" Component={RegisterPage} />
-            <Route path="/sell" element={<PrivetRouter component={SellPage} />} />
+            <Route
+              path="/sell"
+              element={<PrivetRouter component={SellPage} />}
+            />
+            <Route
+              path="/my-sellers"
+              element={<PrivetRouter component={SellMyProductPage} />}
+            />
           </Routes>
         </UserContext.Provider>
       </ThemeContext.Provider>

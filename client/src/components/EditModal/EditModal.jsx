@@ -1,42 +1,52 @@
-import { Card } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import CardEdit from "../CardEdit";
 
 function EditModal({
-  onHide,
+  onEdit,
   data,
+  input,
+  setInput,
+  onHide,
   currentUser,
+  id,
   ...res
 }) {
+  const handelChange = ({ target }) => {
+    setInput({ ...input, [target.name]: target.value });
+  };
+
   return (
     <Modal
       {...res}
+      className="text-dark"
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
-      <div className="bg-dark rounded">
+      <form onSubmit={onEdit} id={id}>
         <Modal.Header closeButton onClick={onHide}>
-          <Modal.Title id="contained-modal-title-vcenter">{data.title}</Modal.Title>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Edit Data
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Card
-            title={data.title}
-            id={data.id}
-            about={data.about}
-            price={data.price}
-            user={data.user}
-            img={data.img}
+          <CardEdit
+            handelChange={handelChange}
+            setInput={setInput}
+            input={input}
+            data={data}
             currentUser={currentUser}
-            className="p-0 m-2"
+            className="p-0 m-2 m-auto shadow bg-dark text-light"
           />
         </Modal.Body>
         <Modal.Footer>
           <Button variant="danger" onClick={onHide}>
-            Close
+            Cancel
           </Button>
+          <input className="btn btn-success" type="submit" value="Edit" />
         </Modal.Footer>
-      </div>
+      </form>
     </Modal>
   );
 }

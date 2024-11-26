@@ -14,4 +14,6 @@ router.get("/api/products", productController.product_get);
 
 router.delete("/api/products/:id", productController.product_delete);
 
+router.put("/api/products/", productController.product_update);
+
 module.exports = router;

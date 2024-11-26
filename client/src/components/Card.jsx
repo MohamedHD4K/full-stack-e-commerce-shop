@@ -2,20 +2,15 @@ import { CloseButton, Card as LittelCard } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 function Card({
-  title,
-  about,
-  price,
-  img,
   key,
-  id,
-  user,
+  product,
   currentUser,
   handelDeleteProduct,
   handelEditProduct,
   handelAddToCart,
   ...res
 }) {
-  if (user === currentUser) {
+  if (product.user === currentUser) {
     return (
       <LittelCard
         key={key}
@@ -26,22 +21,33 @@ function Card({
           variant="top"
           className="img"
           style={{ height: "300px" }}
-          src={img}
+          src={product.img}
         />
         <LittelCard.Body>
-          <LittelCard.Title className="fw-bold">{title}</LittelCard.Title>
-          <LittelCard.Text>{about}</LittelCard.Text>
+          <LittelCard.Title className="fw-bold">
+            {product.title}
+          </LittelCard.Title>
+          <LittelCard.Text className="truncated-text">
+            {product.about}
+          </LittelCard.Text>
           <div
             className="d-flex align-items-center"
             style={{ justifyContent: "space-between" }}
           >
-            <span className="fw-bold text-warning">{price}$</span>
-            {user === currentUser ? (
+            <span className="fw-bold text-warning">{product.price}$</span>
+            {product.user === currentUser ? (
               <span
-                id={id}
+                id={product.id}
                 className="material-symbols-outlined flex-end p-2 fs-5 btn btn-warning"
                 onClick={() =>
-                  handelEditProduct({ title, about, price, img, key, id, user })
+                  handelEditProduct({
+                    title: product.title,
+                    about: product.about,
+                    price: product.price,
+                    img: product.img,
+                    id: product._id,
+                    user: product.user,
+                  })
                 }
               >
                 edit
@@ -56,7 +62,7 @@ function Card({
                 </span>
                 <Link
                   className="material-symbols-outlined flex-end fs-5 btn btn-warning "
-                  to={"/product-details/" + id}
+                  to={"/product-details/" + product._id}
                 >
                   details
                 </Link>
@@ -64,7 +70,7 @@ function Card({
             )}
           </div>
           <CloseButton
-            id={id}
+            id={product._id}
             className="close p-2 rounded-circle"
             onClick={handelDeleteProduct}
           />

@@ -58,11 +58,16 @@ function Navbar() {
           >
             <NavDropdown.Item className="p-0">
               <Link className="dropdown-item" to="/sell">
-                Selling Page
+                Creat New Sell
               </Link>
             </NavDropdown.Item>
             <NavDropdown.Divider />
-            <NavDropdown.Item>Page2</NavDropdown.Item>
+
+            <NavDropdown.Item className="p-0">
+              <Link className="dropdown-item" to="/my-sellers">
+                My Sellers
+              </Link>
+            </NavDropdown.Item>
           </NavDropdown>
 
           <Link to="" className="nav-link">

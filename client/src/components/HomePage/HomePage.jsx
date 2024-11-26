@@ -3,7 +3,7 @@ import Card from "../Card";
 import Carousel from "../Carousel";
 import { useContext, useEffect, useState } from "react";
 import UserContext from "../../context/userContext";
-import { toast, ToastContainer } from "react-toastify";
+// import { toast, ToastContainer } from "react-toastify";
 import { Link } from "react-router-dom";
 import productApi from "../../../api/products";
 import Loading from "../Loading";
@@ -13,8 +13,9 @@ function HomePage() {
   const { user } = useContext(UserContext);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [modalShow, setModalShow] = useState(false);
-  const [data, setData] = useState("");
+  const [input, setInput] = useState({});
+  // const [modalShow, setModalShow] = useState(false);
+  // const [data, setData] = useState("");
 
   useEffect(() => {
     (async () => {
@@ -29,24 +30,47 @@ function HomePage() {
     })();
   }, []);
 
-  const handelDeleteProduct = async ({ target }) => {
-    try {
-      setLoading(true);
-      await productApi.deleteProduct(target.id);
-      const response = await productApi.getProduct();
-      setProducts(response.data);
-      toast.success("Product Deleted");
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // const handelDeleteProduct = async ({ target }) => {
+  //   try {
+  //     setLoading(true);
+  //     await productApi.deleteProduct(target.id);
+  //     const response = await productApi.getProduct();
+  //     setProducts(response.data);
+  //     toast.success("Product Deleted");
+  //   } catch (error) {
+  //     console.log(error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
-  const handelEditProduct = async (data) => {
-    setModalShow(true);
-    setData("Data : "+ data);
-  };
+  // const handelShowEditModal = (data) => {
+  //   setModalShow(true);
+  //   setData(data);
+  // };
+
+  // const handelSubmitEditProduct = async (e) => {
+  //   e.preventDefault();
+
+  //   try {
+  //     setLoading(true);
+  //     setInput({});
+  //     setModalShow(false);
+  //     await productApi.updateProduct({ ...input, id: data.id });
+  //     const response = await productApi.getProduct();
+  //     setProducts(response.data);
+  //     toast.success("Edit Succsess");
+  //   } catch (error) {
+  //     toast.error("Some think wrong! " + error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  // const handelCloseEditModal = () => {
+  //   setModalShow(false);
+  //   setInput({});
+  // };
 
   const handelAddToCart = () => {};
 
@@ -65,16 +89,12 @@ function HomePage() {
             ) : products.length > 0 ? (
               products.map((product) => (
                 <Card
-                  title={product.title}
                   key={product._id}
-                  id={product._id}
-                  about={product.about}
-                  price={product.price}
-                  user={product.user}
-                  img={product.img}
+                  product={product}
                   currentUser={user._id}
-                  handelDeleteProduct={handelDeleteProduct}
-                  handelEditProduct={handelEditProduct}
+                  calledIn="home"
+                  // handelDeleteProduct={handelDeleteProduct}
+                  // handelEditProduct={handelShowEditModal}
                   handelAddToCart={handelAddToCart}
                   className="p-0 m-2"
                 />
@@ -85,12 +105,17 @@ function HomePage() {
           </Row>
         </Stack>
       </Container>
-      <ToastContainer />
+      {/* <ToastContainer />
       <EditModal
+        data={{ ...data }}
+        currentUser={data.user}
+        input={input}
+        id={data.id}
+        onEdit={handelSubmitEditProduct}
+        setInput={setInput}
         show={modalShow}
-        data={data}
-        onHide={() => setModalShow(false)}
-      />
+        onHide={handelCloseEditModal}
+      /> */}
     </>
   );
 }
