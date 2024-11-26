@@ -4,12 +4,7 @@ import Modal from "react-bootstrap/Modal";
 
 function EditModal({
   onHide,
-  title,
-  about,
-  id,
-  price,
-  img,
-  user,
+  data,
   currentUser,
   ...res
 }) {
@@ -22,16 +17,16 @@ function EditModal({
     >
       <div className="bg-dark rounded">
         <Modal.Header closeButton onClick={onHide}>
-          <Modal.Title id="contained-modal-title-vcenter">{title}</Modal.Title>
+          <Modal.Title id="contained-modal-title-vcenter">{data.title}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Card
-            title={title}
-            id={id}
-            about={about}
-            price={price}
-            user={user}
-            img={img}
+            title={data.title}
+            id={data.id}
+            about={data.about}
+            price={data.price}
+            user={data.user}
+            img={data.img}
             currentUser={currentUser}
             className="p-0 m-2"
           />

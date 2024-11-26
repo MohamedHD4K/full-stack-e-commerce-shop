@@ -40,7 +40,9 @@ function Card({
               <span
                 id={id}
                 className="material-symbols-outlined flex-end p-2 fs-5 btn btn-warning"
-                onClick={handelEditProduct}
+                onClick={() =>
+                  handelEditProduct({ title, about, price, img, key, id, user })
+                }
               >
                 edit
               </span>

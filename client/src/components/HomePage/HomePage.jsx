@@ -43,11 +43,10 @@ function HomePage() {
     }
   };
 
-  const handelEditProduct = async ({ target }) => {
+  const handelEditProduct = async (data) => {
     setModalShow(true);
-    setData(target.id)
-    console.log(target.className);
-    }
+    setData("Data : "+ data);
+  };
 
   const handelAddToCart = () => {};
 
@@ -65,7 +64,6 @@ function HomePage() {
               <Loading />
             ) : products.length > 0 ? (
               products.map((product) => (
-              <>
                 <Card
                   title={product.title}
                   key={product._id}
@@ -80,12 +78,6 @@ function HomePage() {
                   handelAddToCart={handelAddToCart}
                   className="p-0 m-2"
                 />
-                <EditModal
-                show={modalShow}
-                data={data}
-                onHide={() => setModalShow(false)}
-              />
-              </>
               ))
             ) : (
               <p>No products available.</p>
@@ -94,7 +86,11 @@ function HomePage() {
         </Stack>
       </Container>
       <ToastContainer />
-     
+      <EditModal
+        show={modalShow}
+        data={data}
+        onHide={() => setModalShow(false)}
+      />
     </>
   );
 }
