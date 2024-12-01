@@ -4,6 +4,7 @@ import Input from "../Input";
 import { toast, ToastContainer } from "react-toastify";
 import LoginPage from "../LoginPage/LoginPage";
 import auth from "../../../api/auth";
+import { Container } from "react-bootstrap";
 
 function RegisterPage() {
   const [data, setData] = useState({
@@ -33,7 +34,8 @@ function RegisterPage() {
   };
 
   return (
-    <div className=" d-flex flex-column justify-content-center align-items-center w-100 mt-5">
+   <Container>
+     <div className=" d-flex flex-column justify-content-center align-items-center w-100 mt-5">
       <div
         className="rounded d-flex justify-content-center border p-5 main shadow"
         style={{ width: "400px", height: "600px", position: "relative" }}
@@ -78,6 +80,7 @@ function RegisterPage() {
         <LoginPage />
       </div>
     </div>
+   </Container>
   );
 }
 

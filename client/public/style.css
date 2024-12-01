@@ -1,3 +1,15 @@
+
+::-webkit-scrollbar{
+  background: transparent;
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb{
+  background-color:   #222;
+  border-radius: 3px;
+}
+
+
 body {
   background-color: #222;
   color: #fff;
@@ -68,4 +80,23 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   width: 220px;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+  content: ">";
+  color: #adb5bd;
+  margin: 0 0.5rem;
+}
+
+.product{
+  background: #eee;
+  transition: .2s;
+  &:hover{
+    background-color: #ccc;
+  }
+}
+
+.search {
+  background-color: transparent !important;
+  border: transparent !important;
 }

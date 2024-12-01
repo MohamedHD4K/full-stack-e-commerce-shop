@@ -35,7 +35,7 @@ function CardEdit({ handelChange, input, data, ...res }) {
         <input
           type="number"
           placeholder="Price"
-          className="form-control fw-bold text-warning"
+          className="form-control"
           value={input.price != undefined ? input.price : data.price}
           name="price"
           onChange={handelChange}

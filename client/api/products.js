@@ -1,6 +1,6 @@
 import http from "./http";
 
-const apiUrl = "http://localhost:3001/api";
+const apiUrl = "http://localhost:3000/api";
 
 const postProduct = (productData) =>
   http.post(`${apiUrl}/products`, productData);

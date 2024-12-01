@@ -1,14 +1,16 @@
 const Product = require("../model/productModel");
 
 const product_post = async (req, res) => {
+  console.log(req.body);
   try {
-    const { title, about, img, price } = req.body;
+    const { title, about, img, price , tags } = req.body;
     let product = new Product({
       title,
       about,
       img,
       price,
       user: req.user._id,
+      tags,
     });
 
     product = await product.save();
@@ -42,12 +44,12 @@ const product_delete = async (req, res) => {
 };
 
 const product_update = async (req, res) => {
-  const { id, title, price, img, about } = req.body;
-
+  const { id, title, price, img, about , tags } = req.body;
+console.log(req.body);
   try {
     const product = await Product.findOneAndUpdate(
       { _id: id },
-      { title, price, img, about },
+      { title, price, img, about , tags },
       { new: true }
     );
 

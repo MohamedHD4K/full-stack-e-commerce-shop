@@ -1,26 +1,49 @@
+import { useState } from "react";
 import { CloseButton, Card as LittelCard } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 function Card({
-  key,
   product,
   currentUser,
   handelDeleteProduct,
   handelEditProduct,
-  handelAddToCart,
+  calledIn,
+  handleCartUpdate,
+  cart,
   ...res
 }) {
-  if (product.user === currentUser) {
+    const [inCart, setInCart] = useState(0);
+
+  const onAdd = () => {
+    setInCart((c) => c + 1);
+    handleCartUpdate(product, inCart + 1);
+  };
+
+  const onRemove = () => {
+    setInCart((c) => Math.max(0, c - 1));
+    handleCartUpdate(product, Math.max(0, inCart - 1));
+  };
+
+  const handelLoad = () => {
+    cart.map((item) => {
+      if (item.productId._id != product._id) return;
+      setInCart(item.quantity);
+      if (item.quantity > 0) handleCartUpdate(item.productId, inCart);
+    });
+  };
+
+
+  if (calledIn === "home") {
     return (
       <LittelCard
-        key={key}
+        onLoad={handelLoad}
         {...res}
-        style={{ textDecoration: "none", width: "18rem" }}
+        style={{ width: "15rem" }}
       >
         <LittelCard.Img
           variant="top"
           className="img"
-          style={{ height: "300px" }}
+          style={{ height: "250px" }}
           src={product.img}
         />
         <LittelCard.Body>
@@ -34,40 +57,93 @@ function Card({
             className="d-flex align-items-center"
             style={{ justifyContent: "space-between" }}
           >
-            <span className="fw-bold text-warning">{product.price}$</span>
-            {product.user === currentUser ? (
-              <span
-                id={product.id}
-                className="material-symbols-outlined flex-end p-2 fs-5 btn btn-warning"
-                onClick={() =>
-                  handelEditProduct({
-                    title: product.title,
-                    about: product.about,
-                    price: product.price,
-                    img: product.img,
-                    id: product._id,
-                    user: product.user,
-                  })
-                }
-              >
-                edit
-              </span>
-            ) : (
-              <div>
+            <span>${product.price}</span>
+            <div>
+              {inCart === 0 ? (
                 <span
-                  className="material-symbols-outlined flex-end fs-5 btn btn-warning mx-2"
-                  onClick={handelAddToCart}
+                  className="material-symbols-outlined flex-end fs-5 btn btn-dark mx-2"
+                  onClick={onAdd}
+                  id={product._id}
                 >
                   shopping_cart
                 </span>
-                <Link
-                  className="material-symbols-outlined flex-end fs-5 btn btn-warning "
-                  to={"/product-details/" + product._id}
+              ) : (
+                <div
+                  className="btn-group mx-2"
+                  role="group"
+                  aria-label="Basic example"
                 >
-                  details
-                </Link>
-              </div>
-            )}
+                  <button
+                    onClick={onRemove}
+                    id={product._id}
+                    type="button"
+                    className="btn btn-primary material-symbols-outlined fs-6 p-1"
+                  >
+                    remove
+                  </button>
+                  <button type="button" className="btn btn-primary p-1 ">
+                    {inCart}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={onAdd}
+                    id={product._id}
+                    className="btn btn-primary material-symbols-outlined fs-6 p-1"
+                  >
+                    add
+                  </button>
+                </div>
+              )}
+
+              <Link
+                className="material-symbols-outlined flex-end fs-5 btn btn-dark "
+                to={"/product-details/" + product._id}
+                state={product}
+              >
+                details
+              </Link>
+            </div>
+          </div>
+        </LittelCard.Body>
+      </LittelCard>
+    );
+  } else if (product.user === currentUser) {
+    return (
+      <LittelCard {...res} style={{ textDecoration: "none", width: "15rem" }}>
+        <LittelCard.Img
+          variant="top"
+          className="img"
+          style={{ height: "250px" }}
+          src={product.img}
+        />
+        <LittelCard.Body>
+          <LittelCard.Title className="fw-bold">
+            {product.title}
+          </LittelCard.Title>
+          <LittelCard.Text className="truncated-text">
+            {product.about}
+          </LittelCard.Text>
+          <div
+            className="d-flex align-items-center"
+            style={{ justifyContent: "space-between" }}
+          >
+            <span>${product.price}</span>
+            <span
+              id={product.id}
+              className="material-symbols-outlined flex-end p-2 fs-5 btn btn-dark"
+              onClick={() =>
+                handelEditProduct({
+                  title: product.title,
+                  about: product.about,
+                  price: product.price,
+                  img: product.img,
+                  id: product._id,
+                  user: product.user,                  
+                })
+              }
+            >
+              edit
+            </span>
           </div>
           <CloseButton
             id={product._id}
@@ -77,8 +153,6 @@ function Card({
         </LittelCard.Body>
       </LittelCard>
     );
-  } else {
-    return;
   }
 }
 

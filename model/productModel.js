@@ -17,6 +17,15 @@ const productSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  tags: {
+    type: [String],
+    validate: {
+      validator: function (v) {
+        return v.length > 0;
+      },
+      message: "A product must have at least one tag.",
+    },
+  },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

@@ -5,19 +5,28 @@ import {
   Nav,
   NavDropdown,
   Navbar as LittelNavbar,
-  Modal,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import UserContext from "../context/userContext";
 import auth from "../../api/auth";
+import CartModal from "./Modals/CartModal";
+import LogoutModal from "./Modals/LogoutModal";
+import SearchModal from "./Modals/SearchModal";
 
-function Navbar() {
+function Navbar({ cart }) {
   const { user, setUser } = useContext(UserContext);
   const [show, setShow] = useState(false);
+  const [cartModal, setCartModal] = useState(false);
+  const [searchModal, setSearchModal] = useState(false);
 
   const handelShow = () => setShow(true);
-
   const handleCancel = () => setShow(false);
+
+  const handleCartModalShow = () => setCartModal(true);
+  const handleCartModalCancel = () => setCartModal(false);
+
+  const handelSearchModalShow = () => setSearchModal(true)
+  const handelSearchModalCansel = () => setSearchModal(false)
 
   const handelLogout = () => {
     setUser(null);
@@ -40,19 +49,19 @@ function Navbar() {
           </Link>
 
           <Link to="" className="nav-link">
-            Men
+            Clothes
           </Link>
 
           <Link to="" className="nav-link">
-            Women
+            Furniture
           </Link>
 
           <Link to="" className="nav-link">
-            Baby Collection
+            Electronics
           </Link>
 
           <NavDropdown
-            title="Pages"
+            title="Sell"
             id="basic-nav-dropdown"
             className="no-arrow-dropdown"
           >
@@ -106,40 +115,33 @@ function Navbar() {
             </Button>
           </Link>
 
-          <Link to="/register">
-            <Button
-              variant="outline-dark rounded-circle p-2 mx-1"
-              className="material-symbols-outlined"
+          <Button
+            variant="outline-dark rounded-circle p-2 mx-1 position-relative"
+            className="material-symbols-outlined"
+            onClick={handleCartModalShow}
+          >
+            shopping_cart
+            <span
+              style={{ fontFamily: "sans-serif", fontSize: "12px" }}
+              className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
             >
-              shopping_cart
-            </Button>
-          </Link>
+              {cart.length > 0 && cart.length}
+            </span>
+          </Button>
 
-          <Link to="/register">
             <Button
               variant="outline-dark rounded-circle p-2 mx-1"
               className="material-symbols-outlined"
+              onClick={handelSearchModalShow}
             >
               search
             </Button>
-          </Link>
         </Nav>
       </Container>
 
-      <Modal className="text-dark" show={show} onHide={handleCancel}>
-        <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Are you shure you wont to logout</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCancel}>
-            Cancel
-          </Button>
-          <Button variant="danger" onClick={handelLogout}>
-            Logout
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <LogoutModal show={show} onHide={handleCancel} handleCancel={handleCancel} handelLogout={handelLogout}  />
+      <CartModal cart={cart} show={cartModal} onHide={handleCartModalCancel} />
+      <SearchModal onHide={handelSearchModalCansel} show={searchModal}/>
     </LittelNavbar>
   );
 }

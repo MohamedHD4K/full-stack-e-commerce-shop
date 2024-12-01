@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import Input from "../Input";
 import { useState } from "react";
 import { Container, Stack } from "react-bootstrap";
@@ -6,12 +5,25 @@ import products from "../../../api/products";
 import { toast, ToastContainer } from "react-toastify";
 
 function SellPage({ history }) {
+  const [selectedTags, setSelectedTags] = useState([]);
+
+  console.log(selectedTags);
+
   const [data, setData] = useState({
     title: "",
     about: "",
     price: null,
     img: "",
+    tags: [],
   });
+
+  const handleTagToggle = (value) => {
+    setSelectedTags((prevTags) =>
+      prevTags.includes(value)
+        ? prevTags.filter((tag) => tag !== value)
+        : [...prevTags, value]
+    );
+  };
 
   const handelChange = ({ target }) => {
     setData({ ...data, [target.name]: target.value });
@@ -20,14 +32,18 @@ function SellPage({ history }) {
   const handelSubmit = async (e) => {
     e.preventDefault();
     try {
-      await products.postProduct(data);
+      const updatedData = { ...data, tags: selectedTags };
+
+      await products.postProduct(updatedData);
       toast.success(data.title + " Created");
       setData({
         title: "",
         about: "",
         price: "",
         img: "",
+        tags: [],
       });
+      setSelectedTags([]);
       history.push("/");
     } catch (error) {
       if (
@@ -41,13 +57,13 @@ function SellPage({ history }) {
   };
 
   return (
-    <Container style={{ height: "90vh" }} className="d-flex align-items-center">
+    <Container>
       <form
-        className="bg-light text-dark p-4 rounded shadow "
-        style={{ margin: "auto", width: "600px" }}
+        className="bg-light text-dark p-4 mx-auto rounded shadow "
+        style={{ width: "600px", scale: ".9", transform: "translateY(-25px)" }}
         onSubmit={handelSubmit}
       >
-        <h1 className="fw-bold">Selling Product</h1>
+        <h3 className="fw-bold">Selling Product</h3>
         <hr className="divider" />
 
         <Stack gap={4}>
@@ -89,12 +105,47 @@ function SellPage({ history }) {
             handelChange={handelChange}
             className="shadow-sm"
           />
+          <div>
+            <div className="fw-bold mb-1">Categories</div>
+            <Tags value="Electronics" onToggle={handleTagToggle} />
+            <Tags value="Clothes" onToggle={handleTagToggle} />
+            <Tags value="Food" onToggle={handleTagToggle} />
+            <Tags value="Kitchenware" onToggle={handleTagToggle} />
+            <Tags value="Toys" onToggle={handleTagToggle} />
+            <Tags value="Books" onToggle={handleTagToggle} />
+            <Tags value="Gift Cards" onToggle={handleTagToggle} />
+            <Tags value="Clearance" onToggle={handleTagToggle} />
+            <Tags value="Sports" onToggle={handleTagToggle} />
+            <Tags value="Furniture" onToggle={handleTagToggle} />
+          </div>
+
           <hr className="divider" />
           <Input type="submit" value="Create" className="btn btn-primary" />
         </Stack>
       </form>
       <ToastContainer />
     </Container>
+  );
+}
+
+function Tags({ value, onToggle }) {
+  const [tag, setTag] = useState(true);
+
+  const handleClick = () => {
+    setTag((prev) => !prev);
+    onToggle(value);
+  };
+  return (
+    <div
+      className={
+        tag
+          ? "btn btn-outline-dark rounded-pill m-1"
+          : "btn btn-dark rounded-pill m-1"
+      }
+      onClick={handleClick}
+    >
+      {value}
+    </div>
   );
 }
 

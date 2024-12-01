@@ -1,6 +1,6 @@
 import { Container, Row, Stack } from "react-bootstrap";
 import Loading from "../Loading";
-import EditModal from "../EditModal/EditModal";
+import EditModal from "../Modals/EditModal";
 import { useContext, useEffect, useState } from "react";
 import UserContext from "../../context/userContext";
 import { toast , ToastContainer } from "react-toastify";
@@ -14,6 +14,7 @@ const SellMyProductPage = () => {
     const [input, setInput] = useState({});
     const [modalShow, setModalShow] = useState(false);
     const [data, setData] = useState("");
+    const [selectedTags, setSelectedTags] = useState([]);
   
     useEffect(() => {
       (async () => {
@@ -54,7 +55,9 @@ const SellMyProductPage = () => {
         setLoading(true);
         setInput({});
         setModalShow(false);
-        await productApi.updateProduct({ ...input, id: data.id });
+        const updatedData = { ...input, id: data.id , tags:selectedTags }
+        await productApi.updateProduct(updatedData);
+        setSelectedTags([])
         const response = await productApi.getProduct();
         setProducts(response.data);
         toast.success("Edit Succsess");
@@ -82,9 +85,11 @@ const SellMyProductPage = () => {
                 <Card
                   key={product._id}
                   product={product}
+                  calledIn="my-sellers"
                   currentUser={user._id}
                   handelDeleteProduct={handelDeleteProduct}
                   handelEditProduct={handelShowEditModal}
+                  selectedTags={selectedTags}
                   className="p-0 m-2"
                 />
               ))
@@ -104,6 +109,8 @@ const SellMyProductPage = () => {
         setInput={setInput}
         show={modalShow}
         onHide={handelCloseEditModal}
+        setSelectedTags={setSelectedTags}
+        selectedTags={selectedTags}
       />
     </>
   );
