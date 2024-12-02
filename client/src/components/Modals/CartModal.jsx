@@ -1,19 +1,16 @@
 import { useEffect, useState } from "react";
 import { Button, CloseButton, Modal } from "react-bootstrap";
 import productApi from "../../../api/products";
+import { Link } from "react-router-dom";
 
 function CardModal({ cart, onHide, ...res }) {
-  const [product , setProducts] = useState("")
-
-  const handelSubmit = (e) => {
-    e.preventDefault(console.log(cart));
-  };
+  const [product, setProducts] = useState("");
 
   const handelDeleteProduct = ({ target }) => {
     const product = cart.filter((item) => item.productId._id === target.id);
     const index = cart.indexOf(product[0]);
-    index != -1 && cart.splice(index, 1); 
-  }
+    index != -1 && cart.splice(index, 1);
+  };
 
   useEffect(() => {
     (async () => {
@@ -24,7 +21,7 @@ function CardModal({ cart, onHide, ...res }) {
         console.error("Error fetching products:", error);
       }
     })();
-  } , [product]);
+  }, [product]);
 
   return (
     <Modal
@@ -33,7 +30,7 @@ function CardModal({ cart, onHide, ...res }) {
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
-      <form onSubmit={handelSubmit}>
+      <form>
         <Modal.Header closeButton onClick={onHide}>
           <Modal.Title id="contained-modal-title-vcenter">Cart</Modal.Title>
         </Modal.Header>
@@ -63,7 +60,6 @@ function CardModal({ cart, onHide, ...res }) {
                     </div>
                   </div>
                   <div className="truncated-text">
-
                     {productId.tags &&
                       productId.tags.map((item, index) => {
                         return (
@@ -99,7 +95,14 @@ function CardModal({ cart, onHide, ...res }) {
             Cancel
           </Button>
           {cart.length != 0 && (
-            <input className="btn btn-primary" type="submit" value="Buy" />
+            <Link
+              to="/cart"
+              className="btn btn-primary"
+              state={cart}
+              onClick={onHide}
+            >
+              Buy
+            </Link>
           )}
         </Modal.Footer>
       </form>

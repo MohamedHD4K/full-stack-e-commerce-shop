@@ -11,6 +11,8 @@ function RegisterPage() {
     username: "",
     password: "",
   });
+  
+  document.title = "Register"
 
   const handelChange = ({ target }) => {
     setData({ ...data, [target.name]: target.value });

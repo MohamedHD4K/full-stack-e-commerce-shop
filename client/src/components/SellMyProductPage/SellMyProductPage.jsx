@@ -15,6 +15,7 @@ const SellMyProductPage = () => {
     const [modalShow, setModalShow] = useState(false);
     const [data, setData] = useState("");
     const [selectedTags, setSelectedTags] = useState([]);
+    document.title = "My sellers"
   
     useEffect(() => {
       (async () => {

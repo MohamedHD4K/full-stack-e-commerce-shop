@@ -2,12 +2,24 @@ import Input from "../Input";
 import { useState } from "react";
 import { Container, Stack } from "react-bootstrap";
 import products from "../../../api/products";
+import Tag from '../Tag';
 import { toast, ToastContainer } from "react-toastify";
 
 function SellPage({ history }) {
   const [selectedTags, setSelectedTags] = useState([]);
 
-  console.log(selectedTags);
+  const tags = [
+    "Electronics",
+    "Clothes",
+    "Food",
+    "Kitchenware",
+    "Toys",
+    "Books",
+    "Gift",
+    "Clearance",
+    "Sports",
+    "Furniture",
+  ];
 
   const [data, setData] = useState({
     title: "",
@@ -16,6 +28,7 @@ function SellPage({ history }) {
     img: "",
     tags: [],
   });
+  document.title = "New Product"
 
   const handleTagToggle = (value) => {
     setSelectedTags((prevTags) =>
@@ -107,16 +120,7 @@ function SellPage({ history }) {
           />
           <div>
             <div className="fw-bold mb-1">Categories</div>
-            <Tags value="Electronics" onToggle={handleTagToggle} />
-            <Tags value="Clothes" onToggle={handleTagToggle} />
-            <Tags value="Food" onToggle={handleTagToggle} />
-            <Tags value="Kitchenware" onToggle={handleTagToggle} />
-            <Tags value="Toys" onToggle={handleTagToggle} />
-            <Tags value="Books" onToggle={handleTagToggle} />
-            <Tags value="Gift Cards" onToggle={handleTagToggle} />
-            <Tags value="Clearance" onToggle={handleTagToggle} />
-            <Tags value="Sports" onToggle={handleTagToggle} />
-            <Tags value="Furniture" onToggle={handleTagToggle} />
+            {tags.map((tag , index) => <Tag key={index} value={tag} onToggle={handleTagToggle} />)}
           </div>
 
           <hr className="divider" />
@@ -128,25 +132,5 @@ function SellPage({ history }) {
   );
 }
 
-function Tags({ value, onToggle }) {
-  const [tag, setTag] = useState(true);
-
-  const handleClick = () => {
-    setTag((prev) => !prev);
-    onToggle(value);
-  };
-  return (
-    <div
-      className={
-        tag
-          ? "btn btn-outline-dark rounded-pill m-1"
-          : "btn btn-dark rounded-pill m-1"
-      }
-      onClick={handleClick}
-    >
-      {value}
-    </div>
-  );
-}
 
 export default SellPage;

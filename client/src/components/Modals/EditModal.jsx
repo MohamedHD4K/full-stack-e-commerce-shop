@@ -1,7 +1,7 @@
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import CardEdit from "../CardEdit";
-import { useState } from "react";
+import Tag from "../Tag";
 
 function EditModal({
   onEdit,
@@ -14,6 +14,19 @@ function EditModal({
   setSelectedTags,
   ...res
 }) {
+  const tags = [
+    "Electronics",
+    "Clothes",
+    "Food",
+    "Kitchenware",
+    "Toys",
+    "Books",
+    "Gift",
+    "Clearance",
+    "Sports",
+    "Furniture",
+  ];
+
   const handelChange = ({ target }) => {
     setInput({ ...input, [target.name]: target.value });
   };
@@ -25,7 +38,6 @@ function EditModal({
         : [...prevTags, value]
     );
   };
-
 
   return (
     <Modal
@@ -42,18 +54,9 @@ function EditModal({
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <div>
+          <div>
             <div className="fw-bold mb-1">Categories</div>
-            <Tags value="Electronics" onToggle={handleTagToggle} />
-            <Tags value="Clothes" onToggle={handleTagToggle} />
-            <Tags value="Food" onToggle={handleTagToggle} />
-            <Tags value="Kitchenware" onToggle={handleTagToggle} />
-            <Tags value="Toys" onToggle={handleTagToggle} />
-            <Tags value="Books" onToggle={handleTagToggle} />
-            <Tags value="Gift Cards" onToggle={handleTagToggle} />
-            <Tags value="Clearance" onToggle={handleTagToggle} />
-            <Tags value="Sports" onToggle={handleTagToggle} />
-            <Tags value="Furniture" onToggle={handleTagToggle} />
+            {tags.map((tag , index) => <Tag key={index} value={tag} onToggle={handleTagToggle} />)}
           </div>
           <CardEdit
             handelChange={handelChange}
@@ -72,28 +75,6 @@ function EditModal({
         </Modal.Footer>
       </form>
     </Modal>
-  );
-}
-
-
-function Tags({ value, onToggle }) {
-  const [tag, setTag] = useState(true);
-
-  const handleClick = () => {
-    setTag((prev) => !prev);
-    onToggle(value);
-  };
-  return (
-    <div
-      className={
-        tag
-          ? "btn btn-outline-dark rounded-pill m-1"
-          : "btn btn-dark rounded-pill m-1"
-      }
-      onClick={handleClick}
-    >
-      {value}
-    </div>
   );
 }
 

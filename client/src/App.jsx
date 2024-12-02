@@ -15,21 +15,36 @@ import CartContext from "./context/cartContext";
 import ProductDetailPage from "./components/ProductDetailPage/ProductDetailPage";
 import Footer from "./components/Footer";
 import NotFoundPage from "./components/NotFoundPage/NotFoundPage";
+import { Button } from "react-bootstrap";
+import CartPage from "./components/CartPage/CartPage";
 
 function App() {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
   const [newCart, setNewCart] = useState(true);
   const [cart, setCart] = useState([]);
+  const [scrollUp, setScrollUp] = useState();
 
   useEffect(() => {
     setUser(auth.getUser() || null);
     setLoading(false);
   }, []);
 
+  window.onscroll = () => {
+    setScrollUp(window.scrollY);
+  };
+
+  const handelGoUp = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   if (loading) {
     return <Loading />;
   }
+  
   return (
     <Router
       future={{
@@ -37,6 +52,15 @@ function App() {
         v7_startTransition: true,
       }}
     >
+      {scrollUp > 200 && (
+        <Button
+          onClick={handelGoUp}
+          className="go-up rounded-circle material-symbols-outlined fs-5"
+        >
+          keyboard_arrow_up
+        </Button>
+      )}
+
       <CartContext.Provider value={{ newCart, setNewCart }}>
         <UserContext.Provider value={{ user, setUser }}>
           <Navbar cart={cart} />
@@ -62,9 +86,15 @@ function App() {
                 <PrivetRouter component={ProductDetailPage} cart={cart} />
               }
             />
+            <Route
+              path="/cart"
+              element={
+                <PrivetRouter component={CartPage} />
+              }
+            />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
-            <Footer />
+          <Footer />
         </UserContext.Provider>
       </CartContext.Provider>
     </Router>

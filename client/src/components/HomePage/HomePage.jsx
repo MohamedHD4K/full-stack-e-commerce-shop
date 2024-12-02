@@ -1,4 +1,4 @@
-import { Container, Row, Stack } from "react-bootstrap";
+import { Button, Container, Row, Stack } from "react-bootstrap";
 import Card from "../Card";
 import Carousel from "../Carousel";
 import { useContext, useEffect, useState } from "react";
@@ -12,9 +12,15 @@ function HomePage({ setCart, cart }) {
   const { user } = useContext(UserContext);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [moreProducts, setMoreProducts] = useState(10);
 
-  console.log(cart);
-  console.log(products);
+  let check = true;
+
+  document.title = "Home";
+
+  const handelAddMoreProducts = () => {
+    setMoreProducts((c) => c + 10);
+  };
 
   const handleCartUpdate = (productId, quantity) => {
     if (quantity === 0) return setCart([]);
@@ -48,7 +54,7 @@ function HomePage({ setCart, cart }) {
         setLoading(false);
       }
     })();
-  }, [cart]);
+  }, []);
 
   return (
     <>
@@ -59,16 +65,29 @@ function HomePage({ setCart, cart }) {
             {loading ? (
               <Loading />
             ) : products.length > 0 ? (
-              products.map((product) => (
-                <Card
-                  key={product._id}
-                  product={product}
-                  currentUser={user._id}
-                  calledIn="home"
-                  className="p-0 m-2"
-                  handleCartUpdate={handleCartUpdate}
-                  cart={cart}
-                />
+              products.map((product, index) => (
+                <>
+                  {index < moreProducts ? (
+                    <Card
+                      key={product._id}
+                      product={product}
+                      currentUser={user._id}
+                      calledIn="home"
+                      className="p-0 m-2"
+                      handleCartUpdate={handleCartUpdate}
+                      cart={cart}
+                    />
+                  ) : (
+                    check && (
+                      <div className="d-flex justify-content-center align-items-center">
+                        {(check = false)}
+                        <Button onClick={handelAddMoreProducts}>
+                          More Products
+                        </Button>
+                      </div>
+                    )
+                  )}
+                </>
               ))
             ) : (
               <p>No products available.</p>
@@ -82,16 +101,15 @@ function HomePage({ setCart, cart }) {
             cart={cart}
             handleCartUpdate={handleCartUpdate}
           />
-            <CollectionOfProducts
+          <CollectionOfProducts
             products={products}
             value="Furniture"
-            
             loading={loading}
             user={user}
             cart={cart}
             handleCartUpdate={handleCartUpdate}
           />
-            <CollectionOfProducts
+          <CollectionOfProducts
             products={products}
             value="Electronics"
             loading={loading}
@@ -99,7 +117,7 @@ function HomePage({ setCart, cart }) {
             cart={cart}
             handleCartUpdate={handleCartUpdate}
           />
-            <CollectionOfProducts
+          <CollectionOfProducts
             products={products}
             value="Food"
             loading={loading}

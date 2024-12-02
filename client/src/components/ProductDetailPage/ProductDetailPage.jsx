@@ -5,6 +5,9 @@ const ProductDetailPage = () => {
   const location = useLocation();
   const data = location.state;
 
+  document.title = data.title
+
+
   return (
     <Container>
       <Stack className="my-2">
