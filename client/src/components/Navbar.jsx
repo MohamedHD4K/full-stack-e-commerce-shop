@@ -3,6 +3,8 @@ import {
   Button,
   Container,
   Nav,
+  Tooltip,
+  OverlayTrigger,
   NavDropdown,
   Navbar as LittelNavbar,
 } from "react-bootstrap";
@@ -25,8 +27,8 @@ function Navbar({ cart }) {
   const handleCartModalShow = () => setCartModal(true);
   const handleCartModalCancel = () => setCartModal(false);
 
-  const handelSearchModalShow = () => setSearchModal(true)
-  const handelSearchModalCansel = () => setSearchModal(false)
+  const handelSearchModalShow = () => setSearchModal(true);
+  const handelSearchModalCansel = () => setSearchModal(false);
 
   const handelLogout = () => {
     setUser(null);
@@ -84,64 +86,116 @@ function Navbar({ cart }) {
           </Link>
         </Nav>
 
-        <Nav>
+        <Nav className="align-items-center">
           {user ? (
-            <div>
-              <Button
-                onClick={handelShow}
-                variant="outline-dark rounded-circle p-2 mx-1"
-                className="material-symbols-outlined"
-              >
-                logout
-              </Button>
-            </div>
+            <OverlayTrigger
+              placement="bottom"
+              overlay={<Tooltip id="tooltip-disabled">Logout</Tooltip>}
+            >
+              <span className="d-inline-block">
+                <Button
+                  onClick={handelShow}
+                  variant="outline-dark rounded-circle p-2 mx-1"
+                  className="material-symbols-outlined no-border"
+                >
+                  logout
+                </Button>
+              </span>
+            </OverlayTrigger>
           ) : (
             <Link to="/register">
-              <Button
-                variant="outline-dark rounded-circle p-2 mx-1"
-                className="material-symbols-outlined"
+              <OverlayTrigger
+                placement="bottom"
+                overlay={<Tooltip id="tooltip-disabled">Login</Tooltip>}
               >
-                login
-              </Button>
+                <span className="d-inline-block">
+                  <Button
+                    variant="outline-dark rounded-circle p-2 mx-1"
+                    className="material-symbols-outlined no-border"
+                  >
+                    login
+                  </Button>
+                </span>
+              </OverlayTrigger>
             </Link>
           )}
-
           <Link to="/register">
-            <Button
-              variant="outline-dark rounded-circle p-2 mx-1"
-              className="material-symbols-outlined"
+            <OverlayTrigger
+              placement="bottom"
+              overlay={<Tooltip id="tooltip-disabled">Registeri</Tooltip>}
             >
-              person
-            </Button>
+              <span className="d-inline-block">
+                <Button
+                  variant="outline-dark rounded-circle p-2 mx-1"
+                  className="material-symbols-outlined no-border"
+                >
+                  edit_square
+                </Button>
+              </span>
+            </OverlayTrigger>
           </Link>
 
-          <Button
-            variant="outline-dark rounded-circle p-2 mx-1 position-relative"
-            className="material-symbols-outlined"
-            onClick={handleCartModalShow}
+          <OverlayTrigger
+            placement="bottom"
+            overlay={<Tooltip id="tooltip-disabled">Cart</Tooltip>}
           >
-            shopping_cart
-            <span
-              style={{ fontFamily: "sans-serif", fontSize: "12px" }}
-              className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-            >
-              {cart.length > 0 && cart.length}
+            <span className="d-inline-block">
+              <Button
+                variant="outline-dark rounded-circle p-2 mx-1 position-relative"
+                className="material-symbols-outlined no-border"
+                onClick={handleCartModalShow}
+              >
+                shopping_cart
+                <span
+                  style={{ fontFamily: "sans-serif", fontSize: "12px" }}
+                  className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                >
+                  {cart.length > 0 && cart.length}
+                </span>
+              </Button>
             </span>
-          </Button>
+          </OverlayTrigger>
 
-            <Button
-              variant="outline-dark rounded-circle p-2 mx-1"
-              className="material-symbols-outlined"
-              onClick={handelSearchModalShow}
+          <OverlayTrigger
+            placement="bottom"
+            overlay={<Tooltip id="tooltip-disabled">Search</Tooltip>}
+          >
+            <span className="d-inline-block">
+              <Button
+                variant="outline-dark rounded-circle p-2 mx-1"
+                className="material-symbols-outlined no-border"
+                onClick={handelSearchModalShow}
+              >
+                search
+              </Button>
+            </span>
+          </OverlayTrigger>
+
+          <Link to={"/user/" + user.username} state={user}>
+            <OverlayTrigger
+              placement="bottom"
+              overlay={<Tooltip id="tooltip-disabled">{user.username}</Tooltip>}
             >
-              search
-            </Button>
+              <span className="d-inline-block mx-1">
+                <img
+                  src={user.img || "../person.jpg"}
+                  className="img rounded-circle"
+                  style={{ width: "40px", height: "40px" }}
+                />
+              </span>
+            </OverlayTrigger>
+          </Link>
         </Nav>
       </Container>
 
-      <LogoutModal show={show} onHide={handleCancel} handleCancel={handleCancel} handelLogout={handelLogout}  />
+      <LogoutModal
+        show={show}
+        onHide={handleCancel}
+        handleCancel={handleCancel}
+        handelLogout={handelLogout}
+      />
       <CartModal cart={cart} show={cartModal} onHide={handleCartModalCancel} />
-      <SearchModal onHide={handelSearchModalCansel} show={searchModal}/>
+      <SearchModal onHide={handelSearchModalCansel} show={searchModal} />
     </LittelNavbar>
   );
 }

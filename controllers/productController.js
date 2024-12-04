@@ -3,7 +3,7 @@ const Product = require("../model/productModel");
 const product_post = async (req, res) => {
   console.log(req.body);
   try {
-    const { title, about, img, price , tags } = req.body;
+    const { title, about, img, price, tags } = req.body;
     let product = new Product({
       title,
       about,
@@ -44,16 +44,16 @@ const product_delete = async (req, res) => {
 };
 
 const product_update = async (req, res) => {
-  const { id, title, price, img, about , tags } = req.body;
-console.log(req.body);
+  const { id, title, price, img, about, tags , comments } = req.body;
+
   try {
     const product = await Product.findOneAndUpdate(
       { _id: id },
-      { title, price, img, about , tags },
+      { title, price, img, about, tags , comments },
       { new: true }
     );
 
-    console.log(product);
+    console.log("Products" , product);
 
     if (!product) {
       return res.status(404).send({ error: "Product not found" });

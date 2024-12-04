@@ -1,7 +1,7 @@
 const User = require("../model/userModel");
 
 const user_index_post = async (req, res) => {
-  const { username, password, email } = req.body;
+  const { username, password, email , img } = req.body;
 
   let user = await User.findOne({ username });
   if (user)
@@ -9,7 +9,7 @@ const user_index_post = async (req, res) => {
       .status(400)
       .send("The Username or Password is Incorrect Try again.");
 
-  user = new User({ username, password, email });
+  user = new User({ username, password, email , img });
   console.log(user);
   await user.save();
   return res.send({

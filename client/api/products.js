@@ -1,6 +1,6 @@
 import http from "./http";
 
-const apiUrl = "http://localhost:3000/api";
+const apiUrl = "http://localhost:3001/api";
 
 const postProduct = (productData) =>
   http.post(`${apiUrl}/products`, productData);
@@ -16,6 +16,12 @@ const updateProduct = (productData) => {
   http.put(`${apiUrl}/products/`, productData);
 };
 
-const productApi = { postProduct, getProduct, deleteProduct, updateProduct };
+const updatComment = (productData) => {
+  console.log(productData);
+  http.put(`${apiUrl}/products/`, productData);
+};
+
+
+const productApi = { postProduct, getProduct, deleteProduct, updateProduct , updatComment };
 
 export default productApi;

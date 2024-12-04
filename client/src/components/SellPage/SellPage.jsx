@@ -70,7 +70,7 @@ function SellPage({ history }) {
   };
 
   return (
-    <Container>
+    <Container style={{minHeight:"100vh"}}>
       <form
         className="bg-light text-dark p-4 mx-auto rounded shadow "
         style={{ width: "600px", scale: ".9", transform: "translateY(-25px)" }}

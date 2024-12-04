@@ -3,80 +3,80 @@ import Loading from "../Loading";
 import EditModal from "../Modals/EditModal";
 import { useContext, useEffect, useState } from "react";
 import UserContext from "../../context/userContext";
-import { toast , ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import productApi from "../../../api/products";
-import Card from "../Card"
+import Card from "../Card";
 
 const SellMyProductPage = () => {
-    const { user } = useContext(UserContext);
-    const [products, setProducts] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [input, setInput] = useState({});
-    const [modalShow, setModalShow] = useState(false);
-    const [data, setData] = useState("");
-    const [selectedTags, setSelectedTags] = useState([]);
-    document.title = "My sellers"
-  
-    useEffect(() => {
-      (async () => {
-        try {
-          const response = await productApi.getProduct();
-          setProducts(response.data);
-        } catch (error) {
-          console.error("Error fetching products:", error);
-        } finally {
-          setLoading(false);
-        }
-      })();
-    }, []);
-  
-    const handelDeleteProduct = async ({ target }) => {
+  const { user } = useContext(UserContext);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [input, setInput] = useState({});
+  const [modalShow, setModalShow] = useState(false);
+  const [data, setData] = useState("");
+  const [selectedTags, setSelectedTags] = useState([]);
+  document.title = "My sellers";
+
+  useEffect(() => {
+    (async () => {
       try {
-        setLoading(true);
-        await productApi.deleteProduct(target.id);
         const response = await productApi.getProduct();
         setProducts(response.data);
-        toast.success("Product Deleted");
       } catch (error) {
-        console.log(error);
+        console.error("Error fetching products:", error);
       } finally {
         setLoading(false);
       }
-    };
-  
-    const handelShowEditModal = (data) => {
-      setModalShow(true);
-      setData(data);
-    };
-  
-    const handelSubmitEditProduct = async (e) => {
-      e.preventDefault();
-  
-      try {
-        setLoading(true);
-        setInput({});
-        setModalShow(false);
-        const updatedData = { ...input, id: data.id , tags:selectedTags }
-        await productApi.updateProduct(updatedData);
-        setSelectedTags([])
-        const response = await productApi.getProduct();
-        setProducts(response.data);
-        toast.success("Edit Succsess");
-      } catch (error) {
-        toast.error("Some think wrong! " + error);
-      } finally {
-        setLoading(false);
-      }
-    };
-  
-    const handelCloseEditModal = () => {
-      setModalShow(false);
+    })();
+  }, []);
+
+  const handelDeleteProduct = async ({ target }) => {
+    try {
+      setLoading(true);
+      await productApi.deleteProduct(target.id);
+      const response = await productApi.getProduct();
+      setProducts(response.data);
+      toast.success("Product Deleted");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handelShowEditModal = (data) => {
+    setModalShow(true);
+    setData(data);
+  };
+
+  const handelSubmitEditProduct = async (e) => {
+    e.preventDefault();
+
+    try {
+      setLoading(true);
       setInput({});
-    };
-  
-    return (
+      setModalShow(false);
+      const updatedData = { ...input, id: data.id, tags: selectedTags };
+      await productApi.updateProduct(updatedData);
+      setSelectedTags([]);
+      const response = await productApi.getProduct();
+      setProducts(response.data);
+      toast.success("Edit Succsess");
+    } catch (error) {
+      toast.error("Some think wrong! " + error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handelCloseEditModal = () => {
+    setModalShow(false);
+    setInput({});
+  };
+
+  return (
     <>
-      <Container>
+      <Container style={{ minHeight: "79vh" }}>
         <Stack>
           <Row gap="1">
             {loading ? (

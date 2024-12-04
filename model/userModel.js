@@ -21,6 +21,10 @@ const userSchema = new mongoose.Schema({
     min: 10,
     max: 300,
   },
+  img: {
+    type: String,
+    required: true,
+  },
 });
 
 userSchema.pre("save", async function (next) {

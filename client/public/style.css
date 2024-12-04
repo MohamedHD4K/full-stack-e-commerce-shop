@@ -1,14 +1,12 @@
-
-::-webkit-scrollbar{
+::-webkit-scrollbar {
   background: transparent;
   width: 10px;
 }
 
-::-webkit-scrollbar-thumb{
-  background-color:   #222;
+::-webkit-scrollbar-thumb {
+  background-color: #333;
   border-radius: 3px;
 }
-
 
 body {
   background-color: #222;
@@ -89,15 +87,15 @@ body {
   margin: 0 0.5rem;
 }
 
-.product{
+.product {
   background: #eee;
-  transition: .2s;
-  &:hover{
+  transition: 0.2s;
+  &:hover {
     background-color: #ccc;
   }
 }
 
-.go-up{
+.go-up {
   position: fixed;
   bottom: 40px;
   right: 40px;
@@ -108,13 +106,26 @@ body {
   align-items: center;
   padding: 0;
   margin: 0;
-  transition: .2s;
+  transition: 0.2s;
 }
 
-.product-dark{
+.product-dark {
   background: #222;
-  transition: .2s;
-  &:hover{
+  transition: 0.2s;
+  &:hover {
     background-color: #444;
   }
+}
+
+.no-border {
+  border: none;
+  &:hover{
+    border:none;
+  }
+}
+
+.space-between{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

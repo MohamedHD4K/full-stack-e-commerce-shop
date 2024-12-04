@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Row  } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
 
 const CartPage = () => {
@@ -99,11 +99,15 @@ const CartPage = () => {
               </div>
             </div>
             <Button className="w-100 my-2">Buy</Button>
+            <div
+              className="text-dark rounded bg-light p-2"
+              style={{ fontSize: "15px" }}
+            >
+              Purchases must be at least $100 or more for the recommendation to
+              be free.
+            </div>
           </div>
-          <div className="text-dark rounded bg-light p-2" style={{fontSize:"15px"}}>
-            Purchases must be at least $100 or more for the recommendation to be
-            free.
-          </div>
+         
         </Col>
       </Row>
     </Container>

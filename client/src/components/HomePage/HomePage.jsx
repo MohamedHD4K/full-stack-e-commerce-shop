@@ -55,7 +55,6 @@ function HomePage({ setCart, cart }) {
       }
     })();
   }, []);
-
   return (
     <>
       <Carousel />
@@ -101,6 +100,7 @@ function HomePage({ setCart, cart }) {
             cart={cart}
             handleCartUpdate={handleCartUpdate}
           />
+
           <CollectionOfProducts
             products={products}
             value="Furniture"

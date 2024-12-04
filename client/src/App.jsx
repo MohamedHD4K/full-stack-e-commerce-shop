@@ -17,6 +17,7 @@ import Footer from "./components/Footer";
 import NotFoundPage from "./components/NotFoundPage/NotFoundPage";
 import { Button } from "react-bootstrap";
 import CartPage from "./components/CartPage/CartPage";
+import UserPage from "./components/UserPage/UserPage";
 
 function App() {
   const [user, setUser] = useState();
@@ -44,7 +45,7 @@ function App() {
   if (loading) {
     return <Loading />;
   }
-  
+
   return (
     <Router
       future={{
@@ -88,9 +89,11 @@ function App() {
             />
             <Route
               path="/cart"
-              element={
-                <PrivetRouter component={CartPage} />
-              }
+              element={<PrivetRouter component={CartPage} />}
+            />
+            <Route
+              path="/user/:user"
+              element={<PrivetRouter component={UserPage} />}
             />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
