@@ -41,7 +41,7 @@ function Navbar({ cart }) {
       <Container>
         <Nav>
           <Link to="/" className="nav-link">
-            <LittelNavbar.Brand>Brand</LittelNavbar.Brand>
+            <LittelNavbar.Brand>E-Shope</LittelNavbar.Brand>
           </Link>
         </Nav>
 
@@ -81,7 +81,7 @@ function Navbar({ cart }) {
             </NavDropdown.Item>
           </NavDropdown>
 
-          <Link to="" className="nav-link">
+          <Link to="/contact" className="nav-link">
             Contact
           </Link>
         </Nav>
@@ -134,7 +134,7 @@ function Navbar({ cart }) {
               </span>
             </OverlayTrigger>
           </Link>
-
+          
           <OverlayTrigger
             placement="bottom"
             overlay={<Tooltip id="tooltip-disabled">Cart</Tooltip>}
@@ -171,7 +171,7 @@ function Navbar({ cart }) {
             </span>
           </OverlayTrigger>
 
-          <Link to={"/user/" + user.username} state={user}>
+          <Link to={"/user/" + user.username}>
             <OverlayTrigger
               placement="bottom"
               overlay={<Tooltip id="tooltip-disabled">{user.username}</Tooltip>}

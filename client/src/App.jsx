@@ -18,6 +18,7 @@ import NotFoundPage from "./components/NotFoundPage/NotFoundPage";
 import { Button } from "react-bootstrap";
 import CartPage from "./components/CartPage/CartPage";
 import UserPage from "./components/UserPage/UserPage";
+import ContactPage from "./components/UserPage/ContactPage";
 
 function App() {
   const [user, setUser] = useState();
@@ -94,6 +95,10 @@ function App() {
             <Route
               path="/user/:user"
               element={<PrivetRouter component={UserPage} />}
+            />
+              <Route
+              path="/contact"
+              element={<PrivetRouter component={ContactPage} />}
             />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>

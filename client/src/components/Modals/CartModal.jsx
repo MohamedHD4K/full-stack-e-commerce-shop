@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Button, CloseButton, Modal } from "react-bootstrap";
 import productApi from "../../../api/products";
 import { Link } from "react-router-dom";
+import Lottie from "react-lottie";
+import animationData from "../../../public/anim.json";
 
 function CardModal({ cart, onHide, ...res }) {
   const [product, setProducts] = useState("");
@@ -22,6 +24,15 @@ function CardModal({ cart, onHide, ...res }) {
       }
     })();
   }, [product]);
+
+  const defaultOptions = {
+    loop: false,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
 
   return (
     <Modal
@@ -83,9 +94,7 @@ function CardModal({ cart, onHide, ...res }) {
             ))
           ) : (
             <div className="d-flex flex-column gap-2 justify-content-center align-items-center h-100 ">
-              <span className="material-symbols-outlined fs-1">
-                inventory_2
-              </span>
+              <Lottie options={defaultOptions} height={100} width={100} />
               <p className="fs-3">No Products</p>
             </div>
           )}

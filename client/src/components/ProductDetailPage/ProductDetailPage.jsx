@@ -21,16 +21,17 @@ const ProductDetailPage = () => {
 
       setSendData(updatedComments);
 
-      console.log(updatedComments);
-
       await productApi.updatComment({
         comments: updatedComments,
         id: data._id,
       });
+
+      setComment("")
     } catch (error) {
       console.log(error);
     }
   };
+
 
   return (
     <Container>
@@ -80,6 +81,7 @@ const ProductDetailPage = () => {
               className="form-control"
               placeholder="Add your comment ..."
               type="text"
+              value={comment}
               onChange={({ target }) => setComment(target.value)}
             />
 
@@ -93,7 +95,7 @@ const ProductDetailPage = () => {
         </div>
 
         <>
-          {data.comments.map((comment) => {
+          {sendData.map((comment) => {
             return (
               <div key={comment._id} className="bg-light text-dark rounded m-2 p-2">
                 <div className="d-flex align-items-center gap-3">
@@ -111,7 +113,7 @@ const ProductDetailPage = () => {
                       className="m-0 text-secondary"
                       style={{ fontSize: "15px" }}
                     >
-                      from : {comment.user}
+                      @{comment.user}
                     </p>
                     <p className="m-0">{comment.text}</p>
                   </div>

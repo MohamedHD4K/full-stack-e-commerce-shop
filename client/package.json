@@ -13,9 +13,12 @@
     "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
     "jwt-decode": "^4.0.0",
+    "lottie-web": "^5.12.2",
+    "path-browserify": "^1.0.1",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.5",
     "react-dom": "^18.3.1",
+    "react-lottie": "^1.2.10",
     "react-router-dom": "^6.28.0",
     "react-toastify": "^10.0.6",
     "sass": "^1.81.0"

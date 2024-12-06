@@ -1,8 +1,8 @@
 import Input from "../Input";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Container, Stack } from "react-bootstrap";
 import products from "../../../api/products";
-import Tag from '../Tag';
+import Tag from "../Tag";
 import { toast, ToastContainer } from "react-toastify";
 
 function SellPage({ history }) {
@@ -28,58 +28,68 @@ function SellPage({ history }) {
     img: "",
     tags: [],
   });
-  document.title = "New Product"
 
-  const handleTagToggle = (value) => {
+  useEffect(() => {
+    document.title = "New Product";
+  }, []);
+
+  const handleTagToggle = useCallback((value) => {
     setSelectedTags((prevTags) =>
       prevTags.includes(value)
         ? prevTags.filter((tag) => tag !== value)
         : [...prevTags, value]
     );
-  };
+  }, []);
 
-  const handelChange = ({ target }) => {
-    setData({ ...data, [target.name]: target.value });
-  };
+  const handelChange = useCallback(
+    ({ target }) => {
+      setData({ ...data, [target.name]: target.value });
+    },
+    [data]
+  );
 
-  const handelSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const updatedData = { ...data, tags: selectedTags };
+  const handelSubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
+      try {
+        const updatedData = { ...data, tags: selectedTags };
 
-      await products.postProduct(updatedData);
-      toast.success(data.title + " Created");
-      setData({
-        title: "",
-        about: "",
-        price: "",
-        img: "",
-        tags: [],
-      });
-      setSelectedTags([]);
-      history.push("/");
-    } catch (error) {
-      if (
-        error.response &&
-        error.response.status >= 400 &&
-        error.response.status < 500
-      ) {
-        return toast.error(error.response.data);
+        await products.postProduct(updatedData);
+        toast.success(data.title + " Created");
+        setData({
+          title: "",
+          about: "",
+          price: "",
+          img: "",
+          tags: [],
+        });
+        setSelectedTags([]);
+        history.push("/");
+      } catch (error) {
+        if (
+          error.response &&
+          error.response.status >= 400 &&
+          error.response.status < 500
+        ) {
+          return toast.error(error.response.data);
+        }
       }
-    }
-  };
+    },
+    [data, selectedTags, history ]
+  );
 
   return (
-    <Container style={{minHeight:"100vh"}}>
+    <Container>
       <form
-        className="bg-light text-dark p-4 mx-auto rounded shadow "
-        style={{ width: "600px", scale: ".9", transform: "translateY(-25px)" }}
+        className="bg-light text-dark p-4 m-4 mx-auto rounded shadow "
+        style={{ width: "600px" }}
         onSubmit={handelSubmit}
       >
         <h3 className="fw-bold">Selling Product</h3>
         <hr className="divider" />
 
-        <Stack gap={4}>
+        <Stack gap={2}>
+
           <Input
             title="Title"
             id="title"
@@ -120,7 +130,9 @@ function SellPage({ history }) {
           />
           <div>
             <div className="fw-bold mb-1">Categories</div>
-            {tags.map((tag , index) => <Tag key={index} value={tag} onToggle={handleTagToggle} />)}
+            {tags.map((tag, index) => (
+              <Tag key={index} value={tag} onToggle={handleTagToggle} />
+            ))}
           </div>
 
           <hr className="divider" />
@@ -131,6 +143,5 @@ function SellPage({ history }) {
     </Container>
   );
 }
-
 
 export default SellPage;

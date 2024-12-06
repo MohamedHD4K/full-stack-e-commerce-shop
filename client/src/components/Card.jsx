@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback , useState } from "react";
 import { CloseButton, Card as LittelCard } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
@@ -12,34 +12,31 @@ function Card({
   cart,
   ...res
 }) {
-    const [inCart, setInCart] = useState(0);
+  const [inCart, setInCart] = useState(0);
 
-  const onAdd = () => {
+  const onAdd = useCallback(() => {
     setInCart((c) => c + 1);
     handleCartUpdate(product, inCart + 1);
-  };
+  }, [product, inCart, handleCartUpdate]);
 
-  const onRemove = () => {
+  const onRemove = useCallback(() => {
     setInCart((c) => Math.max(0, c - 1));
     handleCartUpdate(product, Math.max(0, inCart - 1));
-  };
+  }, [product, inCart, handleCartUpdate]);
 
-  const handelLoad = () => {
+  const handelLoad = useCallback(() => {
     cart.map((item) => {
       if (item.productId._id != product._id) return;
       setInCart(item.quantity);
       if (item.quantity > 0) handleCartUpdate(item.productId, inCart);
     });
-  };
+  }, [cart, handleCartUpdate, product._id, inCart]);
 
+  
 
   if (calledIn === "home") {
     return (
-      <LittelCard
-        onLoad={handelLoad}
-        {...res}
-        style={{ width: "15rem" }}
-      >
+      <LittelCard onLoad={handelLoad} {...res} style={{ width: "15rem" }}>
         <LittelCard.Img
           variant="top"
           className="img"
@@ -138,7 +135,7 @@ function Card({
                   price: product.price,
                   img: product.img,
                   id: product._id,
-                  user: product.user,                  
+                  user: product.user,
                 })
               }
             >

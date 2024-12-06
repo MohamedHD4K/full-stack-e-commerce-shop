@@ -54,10 +54,6 @@ function EditModal({
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div>
-            <div className="fw-bold mb-1">Categories</div>
-            {tags.map((tag , index) => <Tag key={index} value={tag} onToggle={handleTagToggle} />)}
-          </div>
           <CardEdit
             handelChange={handelChange}
             setInput={setInput}
@@ -66,6 +62,10 @@ function EditModal({
             currentUser={currentUser}
             className="p-0 m-2 m-auto shadow bg-dark text-light"
           />
+          <div>
+            <div className="fw-bold mb-1">Categories</div>
+            {tags.map((tag , index) => <Tag key={index} value={tag} onToggle={handleTagToggle} />)}
+          </div>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="danger" onClick={onHide}>

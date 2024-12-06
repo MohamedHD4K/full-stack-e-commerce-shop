@@ -1,7 +1,7 @@
 import { Container, Row, Stack } from "react-bootstrap";
 import Loading from "../Loading";
 import EditModal from "../Modals/EditModal";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import UserContext from "../../context/userContext";
 import { toast, ToastContainer } from "react-toastify";
 import productApi from "../../../api/products";
@@ -13,99 +13,116 @@ const SellMyProductPage = () => {
   const [loading, setLoading] = useState(true);
   const [input, setInput] = useState({});
   const [modalShow, setModalShow] = useState(false);
-  const [data, setData] = useState("");
+  const [data, setData] = useState(null);
   const [selectedTags, setSelectedTags] = useState([]);
-  document.title = "My sellers";
 
   useEffect(() => {
-    (async () => {
+    document.title = "My Sellers";
+  }, []);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
       try {
+        setLoading(true);
         const response = await productApi.getProduct();
         setProducts(response.data);
       } catch (error) {
         console.error("Error fetching products:", error);
+        toast.error("Failed to fetch products.");
       } finally {
         setLoading(false);
       }
-    })();
+    };
+
+    fetchProducts();
   }, []);
 
-  const handelDeleteProduct = async ({ target }) => {
-    try {
-      setLoading(true);
-      await productApi.deleteProduct(target.id);
-      const response = await productApi.getProduct();
-      setProducts(response.data);
-      toast.success("Product Deleted");
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const handelDeleteProduct = useCallback(
+    async ({ target }) => {
+      try {
+        setLoading(true);
+        await productApi.deleteProduct(target.id);
+        const response = await productApi.getProduct();
+        setProducts(response.data);
+        toast.success("Product deleted successfully.");
+      } catch (error) {
+        console.error("Error deleting product:", error);
+        toast.error("Failed to delete product.");
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
 
-  const handelShowEditModal = (data) => {
+  const handelShowEditModal = useCallback((data) => {
     setModalShow(true);
     setData(data);
-  };
+  }, []);
 
-  const handelSubmitEditProduct = async (e) => {
-    e.preventDefault();
+  const handelSubmitEditProduct = useCallback(
+    async (e) => {
+      e.preventDefault();
 
-    try {
-      setLoading(true);
-      setInput({});
-      setModalShow(false);
-      const updatedData = { ...input, id: data.id, tags: selectedTags };
-      await productApi.updateProduct(updatedData);
-      setSelectedTags([]);
-      const response = await productApi.getProduct();
-      setProducts(response.data);
-      toast.success("Edit Succsess");
-    } catch (error) {
-      toast.error("Some think wrong! " + error);
-    } finally {
-      setLoading(false);
-    }
-  };
+      try {
+        setLoading(true);
+        const updatedData = { ...input, id: data.id, tags: selectedTags };
+        setInput({});
+        setModalShow(false);
+        setSelectedTags([]);
 
-  const handelCloseEditModal = () => {
+        await productApi.updateProduct(updatedData);
+        const response = await productApi.getProduct();
+        setProducts(response.data);
+
+        toast.success("Edit successful.");
+      } catch (error) {
+        console.error("Error updating product:", error);
+        toast.error("Failed to update product.");
+      } finally {
+        setLoading(false);
+      }
+    },
+    [input, data, selectedTags]
+  );
+
+  const handelCloseEditModal = useCallback(() => {
     setModalShow(false);
     setInput({});
-  };
+  }, []);
+
+  const renderProducts = useMemo(() => {
+    if (loading) return <Loading />;
+    if (!products.length) return <p>No products available.</p>;
+
+    return products.map((product) => (
+      <Card
+        key={product._id}
+        product={product}
+        calledIn="my-sellers"
+        currentUser={user._id}
+        handelDeleteProduct={handelDeleteProduct}
+        handelEditProduct={handelShowEditModal}
+        selectedTags={selectedTags}
+        className="p-0 m-2"
+      />
+    ));
+  }, [loading, products, user, handelDeleteProduct, handelShowEditModal, selectedTags]);
 
   return (
     <>
       <Container style={{ minHeight: "79vh" }}>
         <Stack>
-          <Row gap="1">
-            {loading ? (
-              <Loading />
-            ) : products.length > 0 ? (
-              products.map((product) => (
-                <Card
-                  key={product._id}
-                  product={product}
-                  calledIn="my-sellers"
-                  currentUser={user._id}
-                  handelDeleteProduct={handelDeleteProduct}
-                  handelEditProduct={handelShowEditModal}
-                  selectedTags={selectedTags}
-                  className="p-0 m-2"
-                />
-              ))
-            ) : (
-              <p>No products available.</p>
-            )}
-          </Row>
+          <h2 className="my-3">My Sellers</h2>
+          <Row>{renderProducts}</Row>
         </Stack>
       </Container>
       <ToastContainer />
       <EditModal
-        data={{ ...data }}
-        currentUser={data.user}
+        data={data}
+        currentUser={data?.user}
         input={input}
-        id={data.id}
+        id={data?.id}
         onEdit={handelSubmitEditProduct}
         setInput={setInput}
         show={modalShow}

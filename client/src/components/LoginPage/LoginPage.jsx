@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import userApi from "../../../api/users";
 import auth from "../../../api/auth";
@@ -10,9 +10,9 @@ function LoginPage() {
     password: "",
   });
 
-  const handelChange = ({ target }) => {
+  const handelChange = useCallback(({ target }) => {
     setData({ ...data, [target.name]: target.value });
-  };
+  }, [data]);
 
   const handelLogin = async (e) => {
     e.preventDefault();

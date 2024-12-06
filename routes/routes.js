@@ -4,7 +4,9 @@ const userController = require("../controllers/userController");
 const productController = require("../controllers/productController");
 const authMid = require("../middlewares/auth");
 
-router.post("/api/user", userController.user_index_post);
+router.post("/api/user", userController.user_post);
+
+router.put("/api/auth", userController.user_update);
 
 router.post("/api/auth", userController.auth_post);
 
