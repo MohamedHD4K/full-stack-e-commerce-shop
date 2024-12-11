@@ -18,7 +18,7 @@ import NotFoundPage from "./components/NotFoundPage/NotFoundPage";
 import { Button } from "react-bootstrap";
 import CartPage from "./components/CartPage/CartPage";
 import UserPage from "./components/UserPage/UserPage";
-import ContactPage from "./components/UserPage/ContactPage";
+import ContactPage from "./components/ContactPage/ContactPage";
 
 function App() {
   const [user, setUser] = useState();
@@ -54,14 +54,14 @@ function App() {
         v7_startTransition: true,
       }}
     >
-      {scrollUp > 200 && (
-        <Button
-          onClick={handelGoUp}
-          className="go-up rounded-circle material-symbols-outlined fs-5"
-        >
-          keyboard_arrow_up
-        </Button>
-      )}
+      <Button
+        onClick={handelGoUp}
+        className={`go-up rounded-circle material-symbols-outlined fs-5 ${
+          scrollUp < 200 ? "on-hide" : "visible"
+        }`}
+      >
+        keyboard_arrow_up
+      </Button>
 
       <CartContext.Provider value={{ newCart, setNewCart }}>
         <UserContext.Provider value={{ user, setUser }}>
@@ -96,7 +96,7 @@ function App() {
               path="/user/:user"
               element={<PrivetRouter component={UserPage} />}
             />
-              <Route
+            <Route
               path="/contact"
               element={<PrivetRouter component={ContactPage} />}
             />

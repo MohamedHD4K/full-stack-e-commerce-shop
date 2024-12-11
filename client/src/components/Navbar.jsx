@@ -134,7 +134,7 @@ function Navbar({ cart }) {
               </span>
             </OverlayTrigger>
           </Link>
-          
+
           <OverlayTrigger
             placement="bottom"
             overlay={<Tooltip id="tooltip-disabled">Cart</Tooltip>}
@@ -171,20 +171,24 @@ function Navbar({ cart }) {
             </span>
           </OverlayTrigger>
 
-          <Link to={"/user/" + user.username}>
-            <OverlayTrigger
-              placement="bottom"
-              overlay={<Tooltip id="tooltip-disabled">{user.username}</Tooltip>}
-            >
-              <span className="d-inline-block mx-1">
-                <img
-                  src={user.img || "../person.jpg"}
-                  className="img rounded-circle"
-                  style={{ width: "40px", height: "40px" }}
-                />
-              </span>
-            </OverlayTrigger>
-          </Link>
+          {user && (
+            <Link to={"/user/" + user.username}>
+              <OverlayTrigger
+                placement="bottom"
+                overlay={
+                  <Tooltip id="tooltip-disabled">{user.username}</Tooltip>
+                }
+              >
+                <span className="d-inline-block mx-1">
+                  <img
+                    src={user.img || "../person.jpg"}
+                    className="img rounded-circle"
+                    style={{ width: "40px", height: "40px" }}
+                  />
+                </span>
+              </OverlayTrigger>
+            </Link>
+          )}
         </Nav>
       </Container>
 
