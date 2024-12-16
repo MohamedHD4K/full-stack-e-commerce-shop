@@ -36,11 +36,11 @@ function Card({
 
   if (calledIn === "home") {
     return (
-      <LittelCard onLoad={handelLoad} {...res} style={{ width: "15rem" }}>
+      <LittelCard onLoad={handelLoad} {...res} style={{ width: "15rem" ,flexGrow:"1" , maxWidth:"400px"}}>
         <LittelCard.Img
           variant="top"
           className="img"
-          style={{ height: "250px" }}
+          style={{ height: "250px"}}
           src={product.img}
         />
         <LittelCard.Body>
@@ -106,7 +106,7 @@ function Card({
     );
   } else if (product.user === currentUser) {
     return (
-      <LittelCard {...res} style={{ textDecoration: "none", width: "15rem" }}>
+      <LittelCard {...res} style={{ textDecoration: "none", width: "15rem"  ,flexGrow:"1" , maxWidth:"400px"}}>
         <LittelCard.Img
           variant="top"
           className="img"
